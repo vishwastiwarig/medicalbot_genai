@@ -37,14 +37,14 @@ graph LR
 ## 🚀 **Installation & Setup**  
 ### **1️⃣ Clone the Repository**  
 ```bash
-git clone <your-repository-url>
-cd <your-repository-name>
+git clone <https://github.com/vishwastiwarig/medicalbot_genai>
+cd <medicalbot_genai>
 ```
 
 ### **2️⃣ Create an Isolated Environment**  
 ```bash
 conda create -n medibot python=3.10 -y
-conda activate medibot
+conda activate medicalbot
 ```
 
 ### **3️⃣ Install Required Dependencies**  
