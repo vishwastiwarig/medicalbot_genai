@@ -68,6 +68,30 @@ def web_scraper_tool(state):
     except Exception as e:
         return {"tool_output": f"An error occurred during web scraping: {e}"}
 
+# --- OpenStreetMap Location Search Tool ---
+def osm_location_search_tool(state):
+    """Searches OpenStreetMap Nominatim for location info based on a query."""
+    print("---TOOL: OSM Location Search---")
+    location_query = state.get("question", "")
+    url = f"https://nominatim.openstreetmap.org/search?q={location_query}&format=json&limit=1"
+    try:
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        results = response.json()
+        if not results:
+            return {"tool_output": "No location found for this query.", "location": {}}
+        loc = results[0]
+        location_info = {
+            "display_name": loc.get("display_name"),
+            "lat": loc.get("lat"),
+            "lon": loc.get("lon"),
+            "type": loc.get("type"),
+            "boundingbox": loc.get("boundingbox"),
+        }
+        output_text = f"Location found: {location_info['display_name']}\nLatitude: {location_info['lat']}\nLongitude: {location_info['lon']}"
+        return {"tool_output": output_text, "location": location_info}
+    except Exception as e:
+        return {"tool_output": f"Error searching OSM: {e}", "location": {}}
+
 # We need to initialize the shared components here as well
 # This is a bit of a workaround for simplicity. In a larger app, you'd use a more robust dependency injection system.
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
